@@ -1,0 +1,41 @@
+COMPILER  = g++
+CFLAGS    = -Wall -std=c++11 -O2
+INCLUDE   = -I./include
+SRCDIR    = ./source
+SOURCES   = $(wildcard $(SRCDIR)/*.cpp)
+OBJDIR    = ./obj
+
+OBJECTS   = $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.cpp=.o)))
+DEPENDS   = $(OBJECTS:.o=.d)
+
+LinearModel_test: $(OBJDIR)/LinearModel_test.o $(OBJDIR)/LinearModel.o
+	$(COMPILER) $(CFLAGS) -o ./bin/LinearModel_test $(OBJDIR)/LinearModel_test.o $(OBJDIR)/LinearModel.o
+
+$(OBJDIR)/LinearModel_test.o: ./tests/LinearModel_test.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./tests/LinearModel_test.cpp -o $(OBJDIR)/LinearModel_test.o
+
+EasyEnv_test: $(OBJDIR)/EasyEnv_test.o $(OBJDIR)/EasyEnv.o
+	$(COMPILER) $(CFLAGS) -o ./bin/EasyEnv_test $(OBJDIR)/EasyEnv_test.o $(OBJDIR)/EasyEnv.o
+
+$(OBJDIR)/EasyEnv_test.o: ./tests/EasyEnv_test.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./tests/EasyEnv_test.cpp -o $(OBJDIR)/EasyEnv_test.o
+
+CartPoleEnv_test: $(OBJDIR)/CartPoleEnv_test.o $(OBJDIR)/CartPoleEnv.o
+	$(COMPILER) $(CFLAGS) -o ./bin/CartPoleEnv_test $(OBJDIR)/CartPoleEnv_test.o $(OBJDIR)/CartPoleEnv.o
+
+$(OBJDIR)/CartPoleEnv_test.o: ./tests/CartPoleEnv_test.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./tests/CartPoleEnv_test.cpp -o $(OBJDIR)/CartPoleEnv_test.o
+
+CartPoleTestEnv: $(OBJDIR)/CartPoleTestEnv.o
+	$(COMPILER) $(CFLAGS) -o ./bin/CartPoleTestEnv $(OBJDIR)/CartPoleTestEnv.o
+
+$(OBJDIR)/CartPoleTestEnv.o: ./tests/CartPoleTestEnv.cpp
+	$(COMPILER) $(CFLAGS) -c ./tests/CartPoleTestEnv.cpp -o $(OBJDIR)/CartPoleTestEnv.o
+
+CEM_test: $(OBJDIR)/CEM_test.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+	$(COMPILER) $(CFLAGS) -o ./bin/CEM_test $(OBJDIR)/CEM_test.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+
+$(OBJDIR)/CEM_test.o: ./tests/CEM_test.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./tests/CEM_test.cpp -o $(OBJDIR)/CEM_test.o
+
+-include $(DEPENDS)

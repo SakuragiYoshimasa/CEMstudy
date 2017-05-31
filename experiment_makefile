@@ -1,0 +1,36 @@
+COMPILER  = g++
+CFLAGS    = -Wall -std=c++11 -O2
+INCLUDE   = -I./include
+SRCDIR    = ./source
+SOURCES   = $(wildcard $(SRCDIR)/*.cpp)
+OBJDIR    = ./obj
+
+OBJECTS   = $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.cpp=.o)))
+DEPENDS   = $(OBJECTS:.o=.d)
+
+Experiment_change_n: $(OBJDIR)/Experiment_change_n.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+	$(COMPILER) $(CFLAGS) -o ./bin/Experiment_change_n $(OBJDIR)/Experiment_change_n.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+
+$(OBJDIR)/Experiment_change_n.o: ./Experiment/Experiment_change_n.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./Experiment/Experiment_change_n.cpp -o $(OBJDIR)/Experiment_change_n.o
+
+Experiment_change_rho: $(OBJDIR)/Experiment_change_rho.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+	$(COMPILER) $(CFLAGS) -o ./bin/Experiment_change_rho $(OBJDIR)/Experiment_change_rho.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+
+$(OBJDIR)/Experiment_change_rho.o: ./Experiment/Experiment_change_rho.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./Experiment/Experiment_change_rho.cpp -o $(OBJDIR)/Experiment_change_rho.o
+
+
+Experiment_change_rv: $(OBJDIR)/Experiment_change_rv.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+	$(COMPILER) $(CFLAGS) -o ./bin/Experiment_change_rv $(OBJDIR)/Experiment_change_rv.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+
+$(OBJDIR)/Experiment_change_rv.o: ./Experiment/Experiment_change_rv.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./Experiment/Experiment_change_rv.cpp -o $(OBJDIR)/Experiment_change_rv.o
+
+Experiment_update_rv: $(OBJDIR)/Experiment_update_rv.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+	$(COMPILER) $(CFLAGS) -o ./bin/Experiment_update_rv $(OBJDIR)/Experiment_update_rv.o $(OBJDIR)/CEM.o $(OBJDIR)/EasyEnv.o $(OBJDIR)/CartPoleEnv.o $(OBJDIR)/LinearModel.o $(OBJDIR)/Env.o
+
+$(OBJDIR)/Experiment_update_rv.o: ./Experiment/Experiment_update_rv.cpp $(OBJECTS)
+	$(COMPILER) $(CFLAGS) -c ./Experiment/Experiment_update_rv.cpp -o $(OBJDIR)/Experiment_update_rv.o
+
+-include $(DEPENDS)
